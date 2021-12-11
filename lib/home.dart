@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: const Text('Login Home'),
         ),
         body: DataTable(
           columns: _dataColums,
