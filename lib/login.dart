@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'Widgets/custom_button.dart';
 import 'Widgets/custom_text_form_field.dart';
+import 'Widgets/snackbar.dart';
 import 'home.dart';
 
 class Login extends StatefulWidget {
@@ -16,6 +17,9 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    String testMail = "example@gmail.com";
+    String testPassword = "example123";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('login'),
@@ -50,13 +54,30 @@ class _LoginState extends State<Login> {
               ),
               CustomButton(
                 ontap: () {
-                  setState(() {
-                    debugPrint(emailController.text);
-                    debugPrint(passwordController.text);
-                  });
-                  Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return  Home(email: emailController.text,password: passwordController.text,);
-                  }));
+                  if (emailController.text == testMail &&
+                      passwordController.text == testPassword) {
+                    setState(() {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(snackBar("Login success"));
+                    });
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return Home(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
+                    }));
+                  }else if (emailController.text.isEmpty &&
+                      passwordController.text.isEmpty) {
+                    setState(() {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(snackBar("Please enter credentials"));
+                    });
+                  }else {
+                    setState(() {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(snackBar("Invalid Email or Password"));
+                    });
+                  }
                 },
               ),
             ],

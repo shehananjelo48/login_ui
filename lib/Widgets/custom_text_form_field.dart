@@ -12,7 +12,8 @@ class CustomTextFormField extends StatefulWidget {
       required this.suffixIcon,
       required this.prefixIcon,
       required this.hintText,
-      required this.isPassword, required this.controller})
+      required this.isPassword,
+      required this.controller})
       : super(key: key);
 
   @override
@@ -20,6 +21,7 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  bool obs = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,13 +31,21 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         // onChanged: (value) {
         //   debugPrint(value);
         // },
-        obscureText: widget.isPassword,
+        obscureText: widget.isPassword?obs:false,
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
           //labelText: 'Email',
           hintText: widget.hintText,
           prefixIcon: Icon(widget.prefixIcon),
-          suffixIcon: Icon(widget.suffixIcon),
+          suffixIcon: widget.isPassword
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      obs = !obs;
+                    });
+                  },
+                  icon:obs? const Icon(Icons.visibility):const Icon(Icons.visibility_off))
+              : Icon(widget.suffixIcon),
         ),
       ),
     );
